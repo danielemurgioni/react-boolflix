@@ -10,6 +10,12 @@ function App() {
           <input type="text" />
           <button>Search</button>
         </div>
+        <div className="container film-data mt-40">
+          <h2>titolo film</h2>
+          <h2>titolo originale del film</h2>
+          <h2>Lingua</h2>
+          <h2>Voto</h2>
+        </div>
       </main>
     </>
   )
