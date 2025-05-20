@@ -25,10 +25,20 @@ function App() {
 
   //creo una funzione che converte la lingua del film nella bandiera corrispondente
   const languageToFlag = (language) => {
+    //array contenente il codice paese invece del codice lingue
+    const fixLanguageCode = {
+      en: "gb",
+      ja: "jp",
+      ko: "kr",
+      zh: "cn",
+      hi: "in",
+    }
+
     if (language) {
-      const url = `https://flagcdn.com/24x18/${language.toLowerCase()}.png`
+      const country = fixLanguageCode[language.toLowerCase()] || language.toLowerCase();
+      const url = `https://flagcdn.com/24x18/${country}.png`
       return (
-        <img src={url} />
+        <img src={url} alt={language} />
       )
     }
     else {
@@ -60,7 +70,7 @@ function App() {
             <div key={movie.id} className="movie-info m-20" >
               <p><strong>titolo film -</strong> {movie.title}</p>
               <p><strong>titolo originale del film -</strong> {movie.original_title}</p>
-              <p><strong>Lingua -</strong> {languageToFlag(movie.original_language)} {console.log(movie.original_language)}</p>
+              <p><strong>Lingua -</strong> {languageToFlag(movie.original_language)}</p>
               <p><strong>Voto -</strong> {movie.vote_average}</p>
             </div>
           ))}
