@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-.film-data {
+.movie-info {
     border: 3px solid black;
 }
 
@@ -19,4 +19,8 @@
 
 .mt-40 {
     margin-top: 40px;
+}
+
+.m-20 {
+    margin: 20px;
 }
