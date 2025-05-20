@@ -11,11 +11,14 @@ function App() {
   //hook useState per cambiare la valuta dell'input
   const [inpValue, setInpValue] = useState("")
 
-  //assegno a una variabile l'endpoint che si aggiorna in base al valore dell'input
-  const endpoint = `https://api.themoviedb.org/3/search/movie?api_key=f8ab9584bebbbf818e62d87d46593a6b&query=${inpValue}`
-  console.log(endpoint, inpValue)
+  //hook useState per aggiornare la valuta dell'endpoint tramite il button onClick
+  const [queryValue, setQueryValue] = useState(inpValue)
 
-  //lanciare l'api tramite il button Search 
+  //assegno a una variabile l'endpoint che si aggiorna in base al valore dell'input tramite un button
+  const endpoint = `https://api.themoviedb.org/3/search/movie?api_key=f8ab9584bebbbf818e62d87d46593a6b&query=${queryValue}`
+  console.log(endpoint, inpValue, queryValue)
+
+  //chiamo l'endpoint tramite axios e verifico il contenuto con un console log
   axios.get(endpoint).then((res) => console.log(res.data.results))
 
   return (
@@ -31,7 +34,7 @@ function App() {
             value={inpValue}
             onChange={(e) => (setInpValue(e.target.value), console.log(e.target.value))} />
           {/* button activate search */}
-          <button>Search</button>
+          <button onClick={setQueryValue}>Search</button>
         </div>
 
         {/* card */}
