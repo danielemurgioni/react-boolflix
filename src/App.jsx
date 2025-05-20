@@ -14,13 +14,18 @@ function App() {
   //hook useState --> contiene l'array che viene aggiornato tramite useEffect
   const [arrMovies, setArrMovies] = useState([])
 
+  const [arrTVseries, setTVseries] = useState([])
+
   //hook useEffect --> esegue il codice ogni volta che l'endpoint viene aggiornato
   useEffect(() => {
     //assegno a una variabile l'endpoint che si aggiorna in base al valore dell'input tramite il button search
     const endpointMovies = `https://api.themoviedb.org/3/search/movie?api_key=f8ab9584bebbbf818e62d87d46593a6b&query=${queryValue}`
     console.log(endpointMovies)
+    const endpointTVseries = `https://api.themoviedb.org/3/search/tv?api_key=f8ab9584bebbbf818e62d87d46593a6b&query=${queryValue}`
     //chiamo l'endpoint tramite axios e salvo i dati nella variabile di stato arrMovies tramite useState
     axios.get(endpointMovies).then((res) => setArrMovies(res.data.results))
+    //effettuo la chiamata ma per le series tv
+    axios.get(endpointTVseries).then((res) => setTVseries(res.data.results))
   }, [queryValue])
 
   //creo una funzione che converte la lingua del film nella bandiera corrispondente
@@ -66,12 +71,26 @@ function App() {
 
         {/* card movies */}
         <div className="container movie-data mt-40">
+          <h2>Movies</h2>
           {arrMovies.map((movie) => (
-            <div key={movie.id} className="movie-info m-20" >
+            <div key={movie.id} className="movie-info m-20 border" >
               <p><strong>titolo film -</strong> {movie.title}</p>
               <p><strong>titolo originale del film -</strong> {movie.original_title}</p>
               <p><strong>Lingua -</strong> {languageToFlag(movie.original_language)}</p>
               <p><strong>Voto -</strong> {movie.vote_average}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* card TV Series */}
+        <div className="container serie-data mt-40">
+          <h2>TV series</h2>
+          {arrTVseries.map((serie) => (
+            <div key={serie.id} className="serie-info m-20 border" >
+              <p><strong>titolo serie tv -</strong> {serie.name}</p>
+              <p><strong>titolo originale della serie tv -</strong> {serie.original_name}</p>
+              <p><strong>Lingua -</strong> {languageToFlag(serie.original_language)}</p>
+              <p><strong>Voto -</strong> {serie.vote_average}</p>
             </div>
           ))}
         </div>
