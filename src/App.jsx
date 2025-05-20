@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 
 
@@ -8,18 +8,26 @@ import axios from "axios"
 
 function App() {
 
-  //hook useState per cambiare la valuta dell'input
+  //hook useState --> cambia la valuta dell'input
   const [inpValue, setInpValue] = useState("")
 
-  //hook useState per aggiornare la valuta dell'endpoint tramite il button onClick
+  //hook useState --> aggiorna la valuta dell'endpoint tramite il button search onClick
   const [queryValue, setQueryValue] = useState(inpValue)
 
-  //assegno a una variabile l'endpoint che si aggiorna in base al valore dell'input tramite un button
-  const endpoint = `https://api.themoviedb.org/3/search/movie?api_key=f8ab9584bebbbf818e62d87d46593a6b&query=${queryValue}`
-  console.log(endpoint, inpValue, queryValue)
+  //assegno a una variabile l'endpoint che si aggiorna in base al valore dell'input tramite il button search
+  const endpointMovies = `https://api.themoviedb.org/3/search/movie?api_key=f8ab9584bebbbf818e62d87d46593a6b&query=${queryValue}`
+  console.log(endpointMovies)
 
-  //chiamo l'endpoint tramite axios e verifico il contenuto con un console log
-  axios.get(endpoint).then((res) => console.log(res.data.results))
+  //hook useState --> contiene l'array che viene aggiornato tramite useEffect
+  const [arrMovies, setArrMovies] = useState()
+
+  //hook useEffect --> esegue il codice ogni volta che l'endpoint viene aggiornato
+  useEffect(() => {
+    //chiamo l'endpoint tramite axios e salvo i dati nella variabile di stato arrMovies tramite useState
+    axios.get(endpointMovies).then((res) => setArrMovies(res.data.results))
+  }, [endpointMovies])
+
+  console.log(arrMovies)
 
   return (
     <>
@@ -32,9 +40,9 @@ function App() {
           {/* input to search */}
           <input type="text"
             value={inpValue}
-            onChange={(e) => (setInpValue(e.target.value), console.log(e.target.value))} />
+            onChange={(e) => (setInpValue(e.target.value))} />
           {/* button activate search */}
-          <button onClick={setQueryValue}>Search</button>
+          <button className="btn-search" onClick={setQueryValue}>Search</button>
         </div>
 
         {/* card */}
