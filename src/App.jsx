@@ -2,10 +2,6 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 
-
-
-
-
 function App() {
 
   //hook useState --> cambia la valuta dell'input
@@ -26,7 +22,21 @@ function App() {
     //chiamo l'endpoint tramite axios e salvo i dati nella variabile di stato arrMovies tramite useState
     axios.get(endpointMovies).then((res) => setArrMovies(res.data.results))
   }, [queryValue])
-  console.log(arrMovies)
+
+  //creo una funzione che converte la lingua del film nella bandiera corrispondente
+  const languageToFlag = (language) => {
+    if (language) {
+      const url = `https://flagcdn.com/24x18/${language.toLowerCase()}.png`
+      return (
+        <img src={url} />
+      )
+    }
+    else {
+      return (
+        <span>Bandiera Sconosciuta</span>
+      )
+    }
+  }
 
   return (
     <>
@@ -44,13 +54,13 @@ function App() {
           <button className="btn-search" onClick={() => setQueryValue(inpValue)}>Search</button>
         </div>
 
-        {/* card */}
+        {/* card movies */}
         <div className="container movie-data mt-40">
           {arrMovies.map((movie) => (
             <div key={movie.id} className="movie-info m-20" >
               <p><strong>titolo film -</strong> {movie.title}</p>
               <p><strong>titolo originale del film -</strong> {movie.original_title}</p>
-              <p><strong>Lingua -</strong> {movie.original_language}</p>
+              <p><strong>Lingua -</strong> {languageToFlag(movie.original_language)} {console.log(movie.original_language)}</p>
               <p><strong>Voto -</strong> {movie.vote_average}</p>
             </div>
           ))}
