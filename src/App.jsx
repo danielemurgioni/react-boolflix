@@ -48,6 +48,12 @@ function App() {
     return <span>Bandiera Sconosciuta</span>
   }
 
+  //converto il voto da 10 a 1 con Math.ceil ad 5 a 1 per poi transformarlo in voto a stelle
+  const voteToStars = (vote) => {
+    //"ceil" arrotonda sempre per eccesso
+    return Math.ceil(vote / 2)
+  }
+
   return (
     <>
       <header>
@@ -72,7 +78,7 @@ function App() {
               <p><strong>titolo film -</strong> {movie.title}</p>
               <p><strong>titolo originale del film -</strong> {movie.original_title}</p>
               <p><strong>Lingua -</strong> {languageToFlag(movie.original_language)}</p>
-              <p><strong>Voto -</strong> {movie.vote_average}</p>
+              <p><strong>Voto -</strong> {voteToStars(movie.vote_average)}</p>
             </div>
           ))}
         </div>
@@ -85,7 +91,7 @@ function App() {
               <p><strong>titolo serie tv -</strong> {serie.name}</p>
               <p><strong>titolo originale della serie tv -</strong> {serie.original_name}</p>
               <p><strong>Lingua -</strong> {languageToFlag(serie.original_language)}</p>
-              <p><strong>Voto -</strong> {serie.vote_average}</p>
+              <p><strong>Voto -</strong> {voteToStars(serie.vote_average)}</p>
             </div>
           ))}
         </div>
