@@ -2,10 +2,103 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+}
+
+body {
+    background-color: rgb(207, 207, 207);
 }
 
 .border {
     border: 3px solid black;
+}
+
+/* header */
+
+header {
+    background-color: rgb(49, 48, 48);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+h1 {
+    text-transform: uppercase;
+    color: rgb(196, 12, 12);
+}
+
+.inp-search {
+    height: 80%;
+    padding: 10px;
+    margin-right: 20px;
+    border: none;
+    border-radius: 10px;
+}
+
+.inp-search:focus {
+    outline: 2px solid rgb(234, 8, 5);
+    outline-offset: 5px;
+    transition: 0.2s;
+}
+
+.btn-search {
+    padding: 0 10px;
+    height: 100%;
+    background-color: rgb(196, 12, 12);
+    cursor: pointer;
+}
+
+.icon-search {
+    font-size: 20px;
+    color: rgb(239, 239, 239);
+}
+
+/* main */
+
+h2 {
+    text-align: center;
+    font-size: 40px;
+}
+
+.shows-data {
+    padding-top: 40px;
+}
+
+.show-info {
+    padding: 20px;
+}
+
+.poster {
+    width: 100%;
+}
+
+/*card */
+
+.show-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.poster {
+    width: 100%;
+    display: block;
+}
+
+.show-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    opacity: 0;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.show-card:hover .show-overlay {
+    opacity: 1;
 }
 
 /*star style*/
@@ -17,8 +110,12 @@
 /*layout*/
 
 .container {
-    width: 800px;
+    max-width: 1100px;
     margin: 0 auto;
+}
+
+.col-30 {
+    width: calc(100%/3);
 }
 
 /*margin*/
@@ -29,4 +126,24 @@
 
 .m-20 {
     margin: 20px;
+}
+
+/*padding*/
+
+.p-20 {
+    padding: 20px;
+}
+
+/*flex*/
+
+.d-flex {
+    display: flex;
+}
+
+.j-content-between {
+    justify-content: space-between;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
 }
