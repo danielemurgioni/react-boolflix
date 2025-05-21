@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 
-
 function App() {
 
   //hook useState --> cambia la valuta dell'input
@@ -14,43 +13,39 @@ function App() {
   //hook useState --> contiene l'array che viene aggiornato tramite useEffect
   const [arrMovies, setArrMovies] = useState([])
 
-  const [arrTVseries, setTVseries] = useState([])
+  const [arrTVseries, setArrTVseries] = useState([])
+
+  //assegno a una variabile l'endpoint che si aggiorna in base al valore dell'input tramite il button search
+  const endpointMovies = `https://api.themoviedb.org/3/search/movie?api_key=f8ab9584bebbbf818e62d87d46593a6b&query=${queryValue}`
+  const endpointTVseries = `https://api.themoviedb.org/3/search/tv?api_key=f8ab9584bebbbf818e62d87d46593a6b&query=${queryValue}`
+
+  //ottimizato la chiamata delle'endpoint
+  const getShow = (endpoint, setState) => {
+    //chiamo l'endpoint tramite axios e salvo i dati nella variabile di stato arrMovies tramite useState
+    axios.get(endpoint).then((res) => setState(res.data.results))
+  }
 
   //hook useEffect --> esegue il codice ogni volta che l'endpoint viene aggiornato
   useEffect(() => {
-    //assegno a una variabile l'endpoint che si aggiorna in base al valore dell'input tramite il button search
-    const endpointMovies = `https://api.themoviedb.org/3/search/movie?api_key=f8ab9584bebbbf818e62d87d46593a6b&query=${queryValue}`
-    console.log(endpointMovies)
-    const endpointTVseries = `https://api.themoviedb.org/3/search/tv?api_key=f8ab9584bebbbf818e62d87d46593a6b&query=${queryValue}`
-    //chiamo l'endpoint tramite axios e salvo i dati nella variabile di stato arrMovies tramite useState
-    axios.get(endpointMovies).then((res) => setArrMovies(res.data.results))
-    //effettuo la chiamata ma per le series tv
-    axios.get(endpointTVseries).then((res) => setTVseries(res.data.results))
+    getShow(endpointMovies, setArrMovies)
+    getShow(endpointTVseries, setArrTVseries)
   }, [queryValue])
+
+  const handleSearch = () => {
+    setQueryValue(inpValue)
+  }
 
   //creo una funzione che converte la lingua del film nella bandiera corrispondente
   const languageToFlag = (language) => {
     //array contenente il codice paese invece del codice lingue
-    const fixLanguageCode = {
-      en: "gb",
-      ja: "jp",
-      ko: "kr",
-      zh: "cn",
-      hi: "in",
-    }
+    const fixLanguageCode = { en: "gb", ja: "jp", ko: "kr", zh: "cn", hi: "in" }
 
     if (language) {
       const country = fixLanguageCode[language.toLowerCase()] || language.toLowerCase();
       const url = `https://flagcdn.com/24x18/${country}.png`
-      return (
-        <img src={url} alt={language} />
-      )
+      return <img src={url} alt={language} />
     }
-    else {
-      return (
-        <span>Bandiera Sconosciuta</span>
-      )
-    }
+    return <span>Bandiera Sconosciuta</span>
   }
 
   return (
@@ -66,7 +61,7 @@ function App() {
             value={inpValue}
             onChange={(e) => (setInpValue(e.target.value))} />
           {/* button activate search */}
-          <button className="btn-search" onClick={() => setQueryValue(inpValue)}>Search</button>
+          <button className="btn-search" onClick={handleSearch}>Search</button>
         </div>
 
         {/* card movies */}
