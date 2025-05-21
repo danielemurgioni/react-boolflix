@@ -28,6 +28,7 @@ function App() {
   const getShow = (endpoint, setState) => {
     //chiamo l'endpoint tramite axios e salvo i dati nella variabile di stato arrMovies tramite useState
     axios.get(endpoint).then((res) => setState(res.data.results))
+    console.log(endpoint)
   }
 
   //hook useEffect --> esegue il codice ogni volta che l'endpoint viene aggiornato
@@ -105,6 +106,7 @@ function App() {
               <p><strong>titolo originale del film -</strong> {movie.original_title}</p>
               <p><strong>Lingua -</strong> {languageToFlag(movie.original_language)}</p>
               <div className="vote"><strong>Voto -</strong> {voteToStars(convertVote(movie.vote_average))}</div>
+              <img src={`http://image.tmdb.org/t/p/w342/${movie.poster_path}`} alt={movie.title} />
             </div>
           ))}
         </div>
@@ -118,6 +120,7 @@ function App() {
               <p><strong>titolo originale della serie tv -</strong> {serie.original_name}</p>
               <p><strong>Lingua -</strong> {languageToFlag(serie.original_language)}</p>
               <div className="vote"><strong>Voto -</strong> {voteToStars(convertVote(serie.vote_average))}</div>
+              <img src={`http://image.tmdb.org/t/p/w342/${serie.poster_path}`} alt={serie.name} />
             </div>
           ))}
         </div>
