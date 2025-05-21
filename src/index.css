@@ -8,6 +8,12 @@
     border: 3px solid black;
 }
 
+/*star style*/
+.full-star,
+.empty-star {
+    color: rgb(207, 177, 3);
+}
+
 /*layout*/
 
 .container {

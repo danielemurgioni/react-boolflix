@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 
+/*Fontawensome */
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome" //componente
+import { faStar as fullstar } from "@fortawesome/free-solid-svg-icons" //icona Stella piena (rinominato con "as" per differenziare due icone uguali ma con stili diversi  )
+import { faStar as emptystar } from "@fortawesome/free-regular-svg-icons" //icona Stella vuota
+
 function App() {
 
   //hook useState --> cambia la valuta dell'input
@@ -48,10 +53,31 @@ function App() {
     return <span>Bandiera Sconosciuta</span>
   }
 
-  //converto il voto da 10 a 1 con Math.ceil ad 5 a 1 per poi transformarlo in voto a stelle
-  const voteToStars = (vote) => {
+  //converto il voto da 10 a 1 con Math.ceil ad 5 a 1 
+  const convertVote = (number) => {
     //"ceil" arrotonda sempre per eccesso
-    return Math.ceil(vote / 2)
+    return Math.ceil(number / 2)
+  }
+
+  //poi transformo il voto in stelle
+  const voteToStars = (vote) => {
+
+    const maxVote = 5
+    const fullStars = vote
+    // il numero di stelle piene viene sottratto al voto massimo cosi facendo le restanti stelle saranno vuote, quindi se il risultato sara 0 non verrano renderizate stelle vuote
+    const emptyStars = maxVote - fullStars
+
+    return ( //renderizzo
+      <div className="star-rating">
+        {/* uso il constructor Array(n), creo un array con lunghezza uguale al valore dato nelle parantesi e lo clono con lo spread operator */}
+        {[...Array(fullStars)].map((item, index) => (
+          <FontAwesomeIcon key={`full-star-${index}`} icon={fullstar} className="full-star" />
+        ))}
+        {[...Array(emptyStars)].map((item, index) => (
+          <FontAwesomeIcon key={`empty-star-${index}`} icon={emptystar} className="empty-star" />
+        ))}
+      </div>
+    )
   }
 
   return (
@@ -78,7 +104,7 @@ function App() {
               <p><strong>titolo film -</strong> {movie.title}</p>
               <p><strong>titolo originale del film -</strong> {movie.original_title}</p>
               <p><strong>Lingua -</strong> {languageToFlag(movie.original_language)}</p>
-              <p><strong>Voto -</strong> {voteToStars(movie.vote_average)}</p>
+              <div className="vote"><strong>Voto -</strong> {voteToStars(convertVote(movie.vote_average))}</div>
             </div>
           ))}
         </div>
@@ -91,7 +117,7 @@ function App() {
               <p><strong>titolo serie tv -</strong> {serie.name}</p>
               <p><strong>titolo originale della serie tv -</strong> {serie.original_name}</p>
               <p><strong>Lingua -</strong> {languageToFlag(serie.original_language)}</p>
-              <p><strong>Voto -</strong> {voteToStars(serie.vote_average)}</p>
+              <div className="vote"><strong>Voto -</strong> {voteToStars(convertVote(serie.vote_average))}</div>
             </div>
           ))}
         </div>
